@@ -22,6 +22,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
 }
 
 app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
@@ -30,4 +31,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+//app.Run();
+
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5275"; // Utilizar el puerto 5275 como predeterminado si no se especifica ningún otro
+app.Run($"http://localhost:{port}");
