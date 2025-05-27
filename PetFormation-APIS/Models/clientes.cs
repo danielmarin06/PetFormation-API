@@ -3,11 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PetFormation_APIS.Models
 {
-    public class cliente
+    public class clientes
     {
         [Key]
-        public int ID_CLIENTE { get; set; }
-        public string CEDULA_CLIENTE { get; set; }
+        public string ID_CLIENTE { get; set; }
         public string NOMBRE_CLIENTE { get; set; }
         public string TELEFONO_CLIENTE { get; set; }
         public string DIRECCION_CLIENTE { get; set; }
