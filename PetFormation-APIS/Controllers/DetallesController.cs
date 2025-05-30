@@ -27,21 +27,31 @@ namespace PetFormation_APIS.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddDetalles([FromBody] detalles detalle)
+        public async Task<IActionResult> AddDetalles([FromBody] List<detalles> detallesList)
         {
-            if (detalle.ID_DETALLE != null && detalle.ID_VENTA != null)
-            {
-                //cliente.ID_CLIENTE = new string();
 
-                await _petFormationDbContext.Detalles.AddAsync(detalle);
-                await _petFormationDbContext.SaveChangesAsync();
-
-                return Ok(detalle);
-            }
-            else
+            if (detallesList == null || !detallesList.Any())
             {
-                return BadRequest();
+                return BadRequest("Lista de detalles vacía.");
             }
+
+            await _petFormationDbContext.Detalles.AddRangeAsync(detallesList);
+            await _petFormationDbContext.SaveChangesAsync();
+
+            return Ok(detallesList);
+            //if (detalle.ID_DETALLE != null && detalle.ID_VENTA != null)
+            //{
+            //    //cliente.ID_CLIENTE = new string();
+
+            //    await _petFormationDbContext.Detalles.AddRangeAsync(detallesList);
+            //    await _petFormationDbContext.SaveChangesAsync();
+
+            //    return Ok(detallesList);
+            //}
+            //else
+            //{
+            //    return BadRequest();
+            //}
 
         }
 
