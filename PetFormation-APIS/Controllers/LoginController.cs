@@ -15,19 +15,42 @@ namespace PetFormation_APIS.Controllers
         {
             _petFormationDbContext = petFormationDbContext;
         }
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] login login)
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login([FromBody] Login login)
         {
             var user = await _petFormationDbContext.Login.FirstOrDefaultAsync(u => u.username == login.username);
             if (user.password == login.password)
             {
-                //// Genera un token de autenticación (JWT o similar)
-                //var token = "tu_token_de_autenticacion"; // Cambia esto por una generación real de token
-                //return Ok(new { token });
-                return Ok("ACCESO CORRECTO");    
+                user.logged = true;
+                await _petFormationDbContext.SaveChangesAsync();
+                return Ok(new { logged = true });
             }
-            return Unauthorized();
+            login.logged = false;
+            return Unauthorized(new { logged = false });
         }
+
+        //[HttpGet("logged-status")]
+        //public async Task<bool> GetLoggedStatus()
+        //{
+        //    var logged = _petFormationDbContext.Login.FirstOrDefaultAsync(u => u.logged == true);
+
+        //    return await _petFormationDbContext.Login.AnyAsync(u => u.logged == true);
+        //}
+
+        [HttpGet("logged-status")]
+        public async Task<ActionResult<bool>> GetLoggedStatus()
+        {
+            try
+            {
+                bool isLogged = await _petFormationDbContext.Login.AnyAsync(u => u.logged == true);
+                return Ok(isLogged);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error en el servidor: {ex.Message}");
+            }
+        }
+
     }
 }
 

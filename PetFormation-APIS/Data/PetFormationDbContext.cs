@@ -14,7 +14,7 @@ namespace PetFormation_APIS.Data
         public DbSet<clientes> Clientes { get; set; }
         public DbSet<detalles> Detalles { get; set; }
         public DbSet<insumos> Insumos { get; set; }
-        public DbSet<login> Login { get; set; }
+        public DbSet<Login> Login { get; set; }
         public DbSet<mascotas> Mascotas { get; set;}
         public DbSet<productos> Productos { get; set; }
         public DbSet<proveedores> Proveedores { get; set; }

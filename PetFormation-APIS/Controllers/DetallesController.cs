@@ -61,7 +61,7 @@ namespace PetFormation_APIS.Controllers
         {
             var idDetalle = Convert.ToInt32(id);
 
-            var detalle = await _petFormationDbContext.Detalles.FirstOrDefaultAsync(x => x.ID_DETALLE == idDetalle);
+            var detalle = await _petFormationDbContext.Detalles.Where(x => x.ID_VENTA == idDetalle).ToListAsync();
 
             if (detalle == null)
             {
