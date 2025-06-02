@@ -29,14 +29,6 @@ namespace PetFormation_APIS.Controllers
             return Unauthorized(new { logged = false });
         }
 
-        //[HttpGet("logged-status")]
-        //public async Task<bool> GetLoggedStatus()
-        //{
-        //    var logged = _petFormationDbContext.Login.FirstOrDefaultAsync(u => u.logged == true);
-
-        //    return await _petFormationDbContext.Login.AnyAsync(u => u.logged == true);
-        //}
-
         [HttpGet("logged-status")]
         public async Task<ActionResult<bool>> GetLoggedStatus()
         {
@@ -49,6 +41,21 @@ namespace PetFormation_APIS.Controllers
             {
                 return StatusCode(500, $"Error en el servidor: {ex.Message}");
             }
+        }
+
+        [HttpPost("Logout")]
+        public async Task<IActionResult> Logout()
+        {
+            var user = await _petFormationDbContext.Login.FirstOrDefaultAsync(u => u.logged == true);
+            if (user == null)
+            {
+                return NotFound("No hay usuario logueado.");
+            }
+
+            user.logged = false;
+            await _petFormationDbContext.SaveChangesAsync();
+            return Ok(new { logged = false });
+
         }
 
     }
